@@ -1,1 +1,2 @@
 # employee-summary
+This app allows the user to create a team for a project. The user inputs a manager and then can add engeneers or inters. After creating the desited team the app creates an HTML formated to show the team members.
