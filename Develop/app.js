@@ -1,4 +1,5 @@
 const Manager = require('./lib/Manager');
+const Employee = require("./lib/Employee")
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const inquirer = require('inquirer');
@@ -12,10 +13,53 @@ const render = require('./lib/htmlRenderer');
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+const questions = [
+    {
+        type: "input",
+        name: "name",
+        message: "What is your manager's name?"
+    },
+    {
+        type: "input",
+        name: "id",
+        message: "What is your manager's ID?"
+    },
+    {
+        type: "input",
+        message: "What is your manager's email address? ",
+        name: "email"
+    },
+    {
+        type: "input",
+        message: "What is your manager's office number? ",
+        name: "officeNumber"
+    },
+{
+    type: "confirm",
+    message: "Would you like to add another team member?",
+    name: "newMember"
+}
+]
+const buildTeam = () => {
+    
+    
+}
+const e = new Employee()
+
+
+
+
+
+buildTeam()
+
+
+
+
 
 // HINT: each employee type (manager, engineer, or intern) has slightly different
 // information; write your code to ask different questions via inquirer depending on
 // employee type.
+
 
 // HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
 // and Intern classes should all extend from a class named Employee; see the directions
@@ -23,7 +67,34 @@ const render = require('./lib/htmlRenderer');
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work!```
 
-const init = () => {};
+const init = () => {inquirer
+    .prompt(questions)
+    .then((e) => {
+        fs.writeFile("team.html", {...e}, function (err) {
+            if (err) {
+                return console.log(err);
+            }
+            console.log({...e});
+        });
+
+        if (e.newMember === true){
+            inquirer.prompt(
+                {
+                    type: "input",
+                    message: "What type of teammember would you like to add? ",
+                    name: "teamMember"
+                },
+            ).then((type) => {
+                switch(type) {
+                    case engineer:
+                        inquirer.prompt(engQs).then((response) => )
+                }
+            })
+        }
+    })
+
+
+ };
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
