@@ -34,23 +34,72 @@ const questions = [
         message: "What is your manager's office number? ",
         name: "officeNumber"
     },
-{
-    type: "confirm",
-    message: "Would you like to add another team member?",
-    name: "newMember"
-}
+
 ]
-const buildTeam = () => {
-    
-    
-}
-const e = new Employee()
+const repeat = [
+    {
+        type: "list",
+        choices: ["Add an Engineer", "Add an intern", "Generate Chart"],
+        message: "What would you like todo?",
+        name: "newMember"
+    }
+]
+
+const engQs = [
+    {
+        type: "input",
+        name: "name",
+        message: "What is your engineer's name?"
+    },
+    {
+        type: "input",
+        name: "id",
+        message: "What is your engineer's ID?"
+    },
+    {
+        type: "input",
+        message: "What is your engineer's email address? ",
+        name: "email"
+    },
+    {
+
+        type: "input",
+        message: "What is your engeneer's github? ",
+        name: "github"
+    }
+
+]
+
+const intQs = [
+    {
+        type: "input",
+        name: "name",
+        message: "What is your intern's name?"
+    },
+    {
+        type: "input",
+        name: "id",
+        message: "What is your intern's ID?"
+    },
+    {
+        type: "input",
+        message: "What is your intern's email address? ",
+        name: "email"
+    },
+    {
+        type: "input",
+        message: "What school does your intern go to? ",
+        name: "school"
+    }
+
+]
+
+// const e = new Employee()
 
 
 
 
-
-buildTeam()
+const buildTeam = []
 
 
 
@@ -67,34 +116,61 @@ buildTeam()
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work!```
 
-const init = () => {inquirer
-    .prompt(questions)
-    .then((e) => {
-        fs.writeFile("team.html", {...e}, function (err) {
+const init = () => {
+    inquirer
+        .prompt(questions)
+        .then((e) => {
+            const manag = new Manager(e.name, e.id, e.email, e.officeNumber)
+            buildTeam.push(manag)
+            Next()
+
+
+
+        })
+    function Next() {
+        inquirer.prompt(repeat).then(function (resp) {
+
+            switch (resp.newMember) {
+                case "Add an Engineer":
+                    eng()
+                    break;
+                case "Add an intern":
+                    int()
+                    break;
+                default:
+                    generate()
+                    break;
+            }
+        })
+    }
+    const eng = () => {
+        inquirer
+        .prompt(engQs)
+        .then((e) => {
+            const engineer = new Engineer(e.name, e.id, e.email, e.github)
+            buildTeam.push(engineer)
+            Next()
+        })
+    }
+    const int = () => {
+        inquirer
+        .prompt(intQs)
+        .then((e) => {
+            const intern = new Engineer(e.name, e.id, e.email, e.github)
+            buildTeam.push(intern)
+            Next()
+        })
+    }
+    function generate(){
+        fs.writeFile(outputPath, render(buildTeam), function (err) {
             if (err) {
                 return console.log(err);
             }
-            console.log({...e});
+            
         });
+    }
 
-        if (e.newMember === true){
-            inquirer.prompt(
-                {
-                    type: "input",
-                    message: "What type of teammember would you like to add? ",
-                    name: "teamMember"
-                },
-            ).then((type) => {
-                switch(type) {
-                    case engineer:
-                        inquirer.prompt(engQs).then((response) => )
-                }
-            })
-        }
-    })
-
-
- };
+};
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
